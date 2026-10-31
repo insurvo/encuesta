@@ -25,7 +25,7 @@ Para separar la encuesta en su propia hoja y correo: crear un proyecto nuevo en 
 ## Formato de una respuesta
 
 ```json
-{ "survey_version": "insurvo-1", "answers": { "products": ["aca", "life"], "products_other": ["Seguros de viaje"], "team": "2_3", "pain_ratings": { "intake": 4, "documents": 5 }, "willingness_to_pay": "20_39" } }
+{ "survey_version": "insurvo-1", "answers": { "products": ["aca", "life"], "products_other": ["Seguros de viaje"], "team": "2_3", "pain_ratings": { "intake": 4, "documents": 5 }, "willingness_to_pay": "50_79" } }
 ```
 
 Los códigos de cada pregunta y opción están en `SECTIONS` dentro de `index.html`. Las preguntas que dependen de otra (`showIf`) no se envían si estaban ocultas.

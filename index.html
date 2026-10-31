@@ -204,7 +204,7 @@ input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,textarea:fo
    (Google Apps Script del dueño, gratis). 'supabase' inserta en la tabla survey_responses
    (ver supabase.sql). Ambos usan la misma forma de payload (survey_version + answers). */
 const CONFIG = {
-  SURVEY_VERSION: 'insurvo-1',
+  SURVEY_VERSION: 'insurvo-2',
   BACKEND: 'apps-script',
   APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxSSy3Uf2Ne_t4agz-i_RVYgEs40JgE01_E1tCXgEndeSvBbIorBQr2NxEVJrHqJl_4/exec',
   APPS_SCRIPT_AGENT: 'alirio',                       // a quién le llega el correo (CONFIG.AGENTS del script)
@@ -344,23 +344,19 @@ const SECTIONS = [
         options: [['most','Sí, la mayoría'],['some','Algunos sí'],['few','Pocos'],['no','No, prefieren mandarlos'],['unsure','No estoy seguro']] },
       { id: 'adoption_concerns', type: 'multi', other: true, exclusive: ['none'],
         label: '¿Qué te frenaría para usar un sistema así?', hint: 'Marca todo lo que apliquen.',
-        options: [['price','El precio'],['learning','El tiempo para aprenderlo'],['clients_wont_use','Que mis clientes no lo usen'],['team_wont_use','Que mis asistentes no lo usen'],['data_privacy','Confiar los datos de mis clientes (SSN, documentos) a otra empresa'],['fmo_crm','Ya uso el CRM de mi FMO'],['none','Nada, lo usaría']] }
+        options: [['learning','El tiempo para aprenderlo'],['clients_wont_use','Que mis clientes no lo usen'],['team_wont_use','Que mis asistentes no lo usen'],['data_privacy','Confiar los datos de mis clientes (SSN, documentos) a otra empresa'],['fmo_crm','Ya uso el CRM de mi FMO'],['none','Nada, lo usaría']] }
     ]
   },
   {
     id: 'pricing', title: 'Precio',
-    intro: 'El sistema se pagaría con una suscripción mensual, nunca con un porcentaje de tus comisiones ni por póliza.',
+    intro: 'El sistema se pagaría con una suscripción mensual desde US$50, nunca con un porcentaje de tus comisiones ni por póliza.',
     questions: [
       { id: 'willingness_to_pay', type: 'single', cols: true,
         label: 'Si el sistema te resolviera los problemas que marcaste, ¿cuánto pagarías al mes?',
-        options: [['wouldnt_pay','No pagaría'],['lt20','Menos de US$20'],['20_39','US$20 a 39'],['40_79','US$40 a 79'],['80_149','US$80 a 149'],['150plus','US$150 o más']] },
-      { id: 'pay_per_assistant', type: 'single',
-        showIf: a => a.team && a.team !== 'alone' && a.willingness_to_pay && a.willingness_to_pay !== 'wouldnt_pay',
-        label: '¿Te parecería bien que el precio dependa de cuántos asistentes usan el sistema?',
-        options: [['yes','Sí, es lo justo'],['prefer_flat','Prefiero un precio fijo'],['indifferent','Me da igual']] },
+        options: [['wouldnt_pay','No pagaría'],['50_79','US$50 a 79'],['80_149','US$80 a 149'],['150plus','US$150 o más']] },
       { id: 'subscription_payment_methods', type: 'multi', cols: true, other: true,
         label: '¿Cómo preferirías pagar la suscripción?', hint: 'Marca todas las que te sirvan.',
-        options: [['card','Tarjeta de crédito o débito'],['zelle','Zelle'],['paypal','PayPal'],['bank_transfer','Transferencia bancaria (ACH)']] }
+        options: [['zelle','Zelle'],['usdt','USDT']] }
     ]
   },
   {
