@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Encuesta para agentes de seguros · Insurvo</title>
+<meta name="description" content="Encuesta anónima de unos 6 minutos para agentes de seguros: ayúdanos a construir una herramienta que ordene tu temporada, tus documentos y tus comisiones.">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#2b2d7c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eceef3;
+  --card:#ffffff;
+  --text:#1d2140;
+  --muted:#5c6080;
+  --border:#d6d9e6;
+  --border-strong:#b9bdd2;
+  --primary:#2b2d7c;
+  --primary-strong:#1f2160;
+  --primary-soft:#e6e7f5;
+  --on-primary:#ffffff;
+  --accent:#3ee6c4;
+  --accent-deep:#1fbf9f;
+  --accent-soft:#d9f9f1;
+  --on-accent:#0f2a3a;
+  --option:#f6f7fb;
+  --option-hover:#eef0f8;
+  --error:#b42318;
+  --error-soft:#fdecea;
+  --focus:#2b2d7c;
+  --shadow:0 1px 2px rgba(29,33,64,.05),0 10px 30px -12px rgba(29,33,64,.18);
+  --radius:22px;
+  --font:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-display:"Unbounded",system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;
+  font-family:var(--font);
+  font-size:15px;line-height:1.5;color:var(--text);
+  background:var(--bg);
+  background-image:radial-gradient(circle at 85% -10%,rgba(62,230,196,.28) 0,transparent 45%),radial-gradient(circle at -10% 20%,rgba(43,45,124,.10) 0,transparent 50%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:640px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+header.top{display:flex;align-items:center;gap:12px;padding:8px 2px 16px}
+.logo{flex:none;width:40px;height:40px;border-radius:13px;background:var(--primary);color:var(--accent);display:grid;place-items:center;font-family:var(--font-display);font-weight:600;font-size:18px}
+.brand{font-weight:700;font-size:17px;line-height:1.3;letter-spacing:-.01em;min-width:0}
+.brand small{display:block;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:0}
+.progress{margin:0 0 14px}
+.progress-meta{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
+.progress-meta span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar{height:8px;border-radius:99px;background:#d6d9e6;overflow:hidden}
+.bar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent-deep));border-radius:99px;transition:width .35s ease}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 18px}
+@media (min-width:560px){.card{padding:32px 32px}}
+h1{font-family:var(--font-display);font-weight:600;font-size:26px;line-height:1.15;margin:0 0 12px;letter-spacing:-.02em;text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:600;font-size:20px;line-height:1.2;margin:0 0 6px;letter-spacing:-.02em}
+@media (min-width:768px){h1{font-size:30px}}
+.lead{color:var(--muted);margin:0 0 18px}
+.lead b{color:var(--text)}
+.step-intro{color:var(--muted);margin:0 0 22px}
+.facts{list-style:none;padding:0;margin:18px 0 22px;display:grid;gap:10px}
+.facts li{display:flex;gap:12px;align-items:flex-start;background:var(--option);border:1px solid var(--border);border-radius:14px;padding:12px 14px}
+.facts .ic{flex:none;width:30px;height:30px;border-radius:9px;background:var(--accent-soft);color:var(--primary);display:grid;place-items:center;font-weight:700;font-size:14px}
+.facts b{display:block;font-weight:700}
+.facts span.t{color:var(--muted);font-size:13px;line-height:1.45}
+.premise{margin:0 0 22px;padding:12px 14px;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 14px 14px 0;font-size:14px;color:var(--text)}
+
+fieldset.q,div.q{border:0;margin:0 0 28px;padding:0;min-width:0}
+.q[hidden]{display:none}
+.q legend,.q .qlabel{display:block;font-weight:700;font-size:16px;margin:0 0 4px;padding:0;line-height:1.35}
+.q .hint{font-size:13px;color:var(--muted);margin:0 0 10px;line-height:1.45}
+.q .opt-tag{font-weight:400;color:var(--muted);font-size:13px;margin-left:4px}
+.options{display:grid;gap:8px;margin-top:10px}
+.options.cols{grid-template-columns:1fr 1fr}
+@media (max-width:400px){.options.cols{grid-template-columns:1fr}}
+.opt{position:relative;display:flex;align-items:center;gap:12px;min-height:50px;padding:12px 14px;border:1.5px solid var(--border);border-radius:14px;background:var(--option);cursor:pointer;transition:border-color .15s,background .15s;user-select:none;-webkit-tap-highlight-color:transparent;min-width:0}
+.opt:hover{background:var(--option-hover)}
+.opt input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.opt .mark{flex:none;width:22px;height:22px;border:2px solid var(--border-strong);display:grid;place-items:center;transition:all .15s;background:#fff}
+.opt input[type=radio]+.mark{border-radius:50%}
+.opt input[type=checkbox]+.mark{border-radius:7px}
+.opt input:checked+.mark{border-color:var(--primary);background:var(--primary)}
+.opt input[type=radio]:checked+.mark::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.opt input[type=checkbox]:checked+.mark::after{content:"";width:6px;height:11px;border:solid var(--accent);border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+.opt:has(input:checked){border-color:var(--primary);background:var(--primary-soft)}
+.opt:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.opt .ol{font-size:15px;line-height:1.3;min-width:0;overflow-wrap:anywhere}
+
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
+.scale .opt{justify-content:center;padding:0;min-height:48px;font-weight:600;font-family:var(--font-display);font-size:16px}
+.scale .opt .mark{display:none}
+.scale .opt:has(input:checked){background:var(--primary);color:#fff;border-color:var(--primary)}
+.scale-ends{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted);margin-top:5px}
+.matrix-item{padding:14px 0;border-top:1px solid var(--border)}
+.matrix-item:first-of-type{border-top:0;padding-top:6px}
+.matrix-item .mlabel{font-weight:600;font-size:15px;margin:0;line-height:1.4}
+.matrix-item.invalid .mlabel{color:var(--error)}
+
+input[type=text],input[type=email],input[type=tel],textarea{
+  width:100%;font:inherit;font-size:16px;color:var(--text);background:var(--option);
+  border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;min-height:50px;
+}
+textarea{min-height:110px;resize:vertical}
+input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,textarea:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--primary)}
+.other-list{margin-top:8px;display:flex;flex-direction:column;gap:8px}
+.other-row{display:flex;gap:8px;align-items:center}
+.other-row input{flex:1;min-width:0}
+.other-remove{flex:none;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--border);background:var(--option);color:var(--muted);font:inherit;font-size:20px;line-height:1;cursor:pointer}
+.other-remove:hover,.other-remove:focus-visible{color:var(--error);border-color:var(--error)}
+.other-add{align-self:flex-start;border:1.5px dashed var(--border-strong);background:transparent;color:var(--primary);font:inherit;font-weight:600;font-size:15px;border-radius:12px;padding:10px 14px;min-height:44px;cursor:pointer}
+.other-add:hover,.other-add:focus-visible{border-color:var(--primary)}
+.other-add[hidden]{display:none}
+.count{font-size:12px;color:var(--muted);text-align:right;margin-top:4px}
+
+.err{display:none;margin-top:8px;color:var(--error);background:var(--error-soft);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600}
+.q.invalid .err{display:block}
+.q.invalid .opt{border-color:color-mix(in srgb,var(--error) 45%,var(--border))}
+
+.nav{display:flex;gap:10px;margin-top:8px}
+.btn{appearance:none;border:0;font:inherit;font-weight:700;font-size:16px;min-height:54px;padding:0 22px;border-radius:16px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:transform .08s,box-shadow .08s,background .15s}
+.btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.btn-primary{background:var(--accent);color:var(--on-accent);flex:1;box-shadow:0 4px 0 var(--accent-deep)}
+.btn-primary:hover{background:#5bebcf}
+.btn-primary:active{transform:translateY(3px);box-shadow:0 1px 0 var(--accent-deep)}
+.btn-primary[disabled]{opacity:.6;cursor:progress;transform:none}
+.btn-ghost{background:transparent;color:var(--text);border:1.5px solid var(--border-strong)}
+.btn-ghost:hover{background:var(--option-hover)}
+.btn-block{width:100%}
+.step-error{display:none;margin:0 0 14px;color:var(--error);background:var(--error-soft);border-radius:14px;padding:12px 14px;font-weight:600;font-size:14px}
+.step-error.show{display:block}
+.notice{margin:16px 0 0;padding:12px 14px;border-radius:14px;background:var(--option);border:1px solid var(--border);font-size:14px;color:var(--muted)}
+.notice.err-box{background:var(--error-soft);border-color:transparent;color:var(--error);font-weight:600}
+.small{font-size:13px;color:var(--muted);text-align:center;margin-top:16px}
+.hp{position:absolute!important;left:-10000px!important;top:auto;width:1px;height:1px;overflow:hidden}
+.big-ok{width:64px;height:64px;border-radius:50%;background:var(--primary);color:var(--accent);display:grid;place-items:center;font-size:30px;font-weight:700;margin:0 0 16px}
+.view[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo" aria-hidden="true">I</div>
+    <div class="brand">Insurvo<small>Herramientas para agentes de seguros</small></div>
+  </header>
+
+  <div class="progress" id="progress" hidden>
+    <div class="progress-meta"><span id="progress-label">Paso 1 de 7</span><span id="progress-title"></span></div>
+    <div class="bar" role="progressbar" aria-label="Avance de la encuesta" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-fill"></span></div>
+  </div>
+
+  <main>
+    <!-- Bienvenida -->
+    <section class="view card" id="view-welcome" aria-labelledby="welcome-title">
+      <h1 id="welcome-title">Ayúdanos a crear la herramienta que tu negocio de seguros necesita</h1>
+      <p class="lead">Estamos construyendo <b>un sistema para agentes de seguros y sus asistentes</b>: recibir la solicitud del cliente por un enlace, llevar los casos de cotización e inscripción, controlar documentos y plazos, trabajar las renovaciones y cuadrar comisiones, todo en un solo lugar. Queremos saber cómo trabajas hoy para hacerlo bien desde el principio.</p>
+      <p class="premise"><b>Insurvo no vende seguros.</b> Es software para el agente: tú sigues cotizando, asesorando e inscribiendo; el sistema te ordena el trabajo.</p>
+      <ul class="facts">
+        <li><span class="ic" aria-hidden="true">⏱</span><div><b>Unos 6 minutos</b><span class="t">Casi todo se responde con un toque.</span></div></li>
+        <li><span class="ic" aria-hidden="true">🔒</span><div><b>Es anónima</b><span class="t">No pedimos tu nombre, tu agencia ni datos de tus clientes. Al final puedes dejar un contacto solo si quieres probar el sistema.</span></div></li>
+        <li><span class="ic" aria-hidden="true">💾</span><div><b>Se guarda tu avance</b><span class="t">Si cierras la página, puedes seguir donde te quedaste en este mismo teléfono.</span></div></li>
+      </ul>
+      <button type="button" class="btn btn-primary btn-block" id="btn-start">Empezar</button>
+      <p class="small" id="resume-note" hidden>Tienes respuestas guardadas: seguirás donde te quedaste.</p>
+    </section>
+
+    <!-- Encuesta -->
+    <form class="view" id="survey" novalidate hidden autocomplete="off">
+      <div class="hp" aria-hidden="true">
+        <label for="hp-website">No llenes este campo</label>
+        <input type="text" id="hp-website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <div id="steps"></div>
+    </form>
+
+    <!-- Gracias -->
+    <section class="view card" id="view-thanks" hidden aria-labelledby="thanks-title" tabindex="-1">
+      <div class="big-ok" aria-hidden="true">✓</div>
+      <h1 id="thanks-title">¡Gracias por tu tiempo!</h1>
+      <p class="lead">Tus respuestas nos ayudan a construir una herramienta pensada para agentes de verdad. Si dejaste un contacto, te escribiremos cuando tengamos algo para probar.</p>
+      <div id="offline-box" hidden>
+        <p class="notice">Esta encuesta todavía no está conectada a un servidor, así que tus respuestas no se enviaron. Puedes descargarlas y enviárnoslas directamente.</p>
+        <button type="button" class="btn btn-ghost btn-block" id="btn-download" style="margin-top:12px">Descargar mis respuestas (JSON)</button>
+      </div>
+      <p class="small">Puedes compartir esta encuesta con otros agentes que conozcas.</p>
+    </section>
+  </main>
+</div>
+<script>
+'use strict';
+
+/* ===== Configuración =====
+   BACKEND: 'apps-script' guarda cada respuesta en la hoja de Google y la manda por correo
+   (Google Apps Script del dueño, gratis). 'supabase' inserta en la tabla survey_responses
+   (ver supabase.sql). Ambos usan la misma forma de payload (survey_version + answers). */
+const CONFIG = {
+  SURVEY_VERSION: 'insurvo-1',
+  BACKEND: 'apps-script',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxSSy3Uf2Ne_t4agz-i_RVYgEs40JgE01_E1tCXgEndeSvBbIorBQr2NxEVJrHqJl_4/exec',
+  APPS_SCRIPT_AGENT: 'alirio',                       // a quién le llega el correo (CONFIG.AGENTS del script)
+  SUPABASE_URL: '',                                  // p. ej. https://xxxx.supabase.co (proyecto propio de Insurvo)
+  SUPABASE_ANON_KEY: '',                             // clave pública anon (solo inserción vía RLS)
+  TABLE: 'survey_responses'
+};
+const STORAGE_KEY = 'encuesta_insurvo_' + CONFIG.SURVEY_VERSION;
+const REQUEST_TIMEOUT_MS = 15000;
+
+/* ===== Opciones reutilizables ===== */
+const SCALE_LABELS_PAIN = ['No me pasa', 'Me afecta mucho'];
+const SCALE_LABELS_INTEREST = ['No me interesa', 'Lo necesito'];
+
+/* ===== Definición de la encuesta =====
+   Tipos: single, multi, scale, matrix, text, textarea.
+   other: true agrega "Otro" con uno o varios textos (se guardan como lista en <id>_other).
+   exclusive: códigos que, al marcarse, desmarcan los demás (multi).
+   showIf: función sobre las respuestas; si devuelve false, la pregunta se oculta y no se envía. */
+const SECTIONS = [
+  {
+    id: 'business', title: 'Tu negocio',
+    intro: 'Empecemos por conocer qué vendes y cómo está armado tu equipo.',
+    questions: [
+      { id: 'products', type: 'multi', cols: true, other: true,
+        label: '¿Qué productos vendes o piensas vender este año?', hint: 'Marca todos los que apliquen.',
+        options: [['aca','Salud ACA (Obamacare / Marketplace)'],['life','Vida'],['dental','Dental y visión'],['medicare','Medicare'],['auto_home','Auto u hogar'],['supplemental','Suplementarios (accidentes, hospitalización…)']] },
+      { id: 'years_agent', type: 'single', cols: true,
+        label: '¿Cuánto tiempo llevas como agente de seguros?',
+        options: [['starting','Estoy empezando'],['lt1','Menos de 1 año'],['1_2','1 a 2 años'],['3_5','3 a 5 años'],['gt5','Más de 5 años']] },
+      { id: 'clients_season', type: 'single', cols: true,
+        label: 'En la última temporada de inscripción abierta (o la que esperas), ¿cuántas familias atendiste?', hint: 'Cuenta hogares, no personas.',
+        options: [['lt25','Menos de 25'],['25_74','25 a 74'],['75_149','75 a 149'],['150_299','150 a 299'],['300_599','300 a 599'],['600plus','600 o más']] },
+      { id: 'licensed_states', type: 'single', cols: true,
+        label: '¿En cuántos estados tienes licencia?',
+        options: [['none','Todavía ninguna'],['1','1 estado'],['2_3','2 a 3'],['4_9','4 a 9'],['10plus','10 o más']] },
+      { id: 'team', type: 'single', cols: true,
+        label: '¿Trabajas solo o con asistentes?', hint: 'Personas que te ayudan a atender clientes, aunque no tengan licencia.',
+        options: [['alone','Solo'],['1','Con 1 asistente'],['2_3','Con 2 a 3'],['4_9','Con 4 a 9'],['10plus','Con 10 o más']] },
+      { id: 'team_licensed', type: 'single',
+        showIf: a => a.team && a.team !== 'alone',
+        label: '¿Tus asistentes tienen licencia?',
+        options: [['all','Sí, todos'],['some','Algunos'],['none','Ninguno, solo apoyan'],['unsure','No estoy seguro']] },
+      { id: 'team_tasks', type: 'multi', other: true,
+        showIf: a => a.team && a.team !== 'alone',
+        label: '¿Qué hacen tus asistentes?', hint: 'Marca todo lo que apliquen.',
+        options: [['intake','Toman los datos del cliente'],['documents','Piden y revisan documentos'],['followup','Dan seguimiento y agendan'],['quotes','Preparan cotizaciones'],['enroll','Inscriben en el Marketplace'],['renewals','Trabajan las renovaciones'],['commissions','Revisan comisiones']] }
+    ]
+  },
+  {
+    id: 'today', title: 'Cómo trabajas hoy',
+    intro: 'Tu día a día: con qué herramientas, cómo llega la solicitud y cómo controlas los documentos.',
+    questions: [
+      { id: 'current_tools', type: 'multi', cols: true, other: true,
+        label: '¿Qué usas hoy para llevar clientes y casos?', hint: 'Marca todo lo que uses.',
+        options: [['excel','Excel o Google Sheets'],['whatsapp','WhatsApp'],['healthsherpa','HealthSherpa'],['fmo_crm','El CRM de mi agencia superior (FMO / IMO)'],['own_crm','Un CRM que pago por mi cuenta'],['paper','Papel o planillas impresas'],['notes','Notas del teléfono'],['email','Correo electrónico']] },
+      { id: 'intake_channel', type: 'multi', cols: true, other: true,
+        label: '¿Cómo te llegan los datos del cliente para cotizar?', hint: 'Marca todos los que uses.',
+        options: [['call','Por llamada, yo los anoto'],['whatsapp_text','Por WhatsApp, en mensajes'],['photo_form','Foto de una planilla llenada'],['paper_form','Planilla en papel, en persona'],['web_form','Un formulario web o enlace'],['assistant','Mi asistente los toma']] },
+      { id: 'intake_quality', type: 'single',
+        label: 'De cada 10 solicitudes, ¿cuántas llegan incompletas o con errores que te obligan a volver a contactar al cliente?',
+        options: [['0_1','0 a 1'],['2_3','2 a 3'],['4_6','4 a 6'],['7plus','7 o más']] },
+      { id: 'documents_control', type: 'multi', other: true,
+        label: '¿Cómo pides y controlas los documentos del cliente (ID, permiso de trabajo, talones de pago…)?', hint: 'Marca todo lo que apliquen.',
+        options: [['whatsapp','Me los mandan por WhatsApp y los guardo en el teléfono'],['email','Por correo'],['drive','Los subo a Drive, Dropbox o similar'],['crm','En el CRM'],['paper','Copias en papel'],['memory','Lo llevo de memoria o en notas']] },
+      { id: 'dmi_missed', type: 'single',
+        label: '¿Se te ha vencido algún plazo del Marketplace por documentos pendientes (DMI) de un cliente?',
+        options: [['never','Nunca'],['once','Una vez'],['several','Varias veces'],['often','Me pasa seguido'],['unsure','No sé si me ha pasado']] },
+      { id: 'who_did_what', type: 'single',
+        showIf: a => a.team && a.team !== 'alone',
+        label: 'Cuando algo sale mal en un caso, ¿puedes saber quién lo hizo y cuándo?',
+        options: [['always','Sí, siempre'],['sometimes','A veces'],['rarely','Casi nunca']] }
+    ]
+  },
+  {
+    id: 'problems', title: 'Problemas',
+    intro: 'Queremos saber qué te duele más para resolverlo primero.',
+    questions: [
+      { id: 'pain_ratings', type: 'matrix', ends: SCALE_LABELS_PAIN,
+        label: '¿Cuánto te afectan estas situaciones?', hint: '1 = no me pasa o no me afecta, 5 = me afecta muchísimo.',
+        items: [
+          ['intake','La solicitud del cliente llega en papel, foto o WhatsApp, incompleta o con errores.'],
+          ['documents','Pedir y perseguir documentos es manual y se pierden plazos del Marketplace.'],
+          ['season_volume','En temporada el volumen desborda Excel y WhatsApp.'],
+          ['team_split','Repartir el trabajo entre asistentes y saber quién hizo qué.'],
+          ['renewals','Cada año toca volver a contactar a toda la cartera para renovar.'],
+          ['commissions','Saber qué debe pagar cada aseguradora y si pagó bien.'],
+          ['client_updates','Los clientes preguntan por el estado de su caso y toca responder uno a uno.']
+        ] },
+      { id: 'biggest_time_sink', type: 'textarea', optional: true, max: 600,
+        label: 'Cuéntanos: ¿qué es lo que más tiempo te quita en temporada?' }
+    ]
+  },
+  {
+    id: 'renewals', title: 'Renovaciones y comisiones',
+    intro: 'Cómo renuevas tu cartera cada año y cómo cuadras lo que te pagan.',
+    questions: [
+      { id: 'renewal_method', type: 'multi', other: true, exclusive: ['no_portfolio'],
+        label: '¿Cómo haces las renovaciones de tu cartera?', hint: 'Marca todo lo que apliquen.',
+        options: [['one_by_one','Contacto a cada cliente uno por uno'],['list','Saco una lista de Excel o del CRM y la voy tachando'],['bulk_message','Mando un mensaje masivo por WhatsApp'],['auto_renew','Dejo que renueven automáticamente'],['assistants','Lo hacen mis asistentes'],['no_portfolio','Todavía no tengo cartera para renovar']] },
+      { id: 'commission_source', type: 'multi', other: true, exclusive: ['no_commissions'],
+        label: '¿Cómo te enteras de tus comisiones?', hint: 'Marca todo lo que apliquen.',
+        options: [['carrier_portal','Portal de cada aseguradora'],['fmo_statement','Estado de cuenta de mi FMO / IMO'],['bank','Veo el depósito en el banco'],['own_sheet','Llevo mi propio Excel'],['no_commissions','Todavía no cobro comisiones']] },
+      { id: 'commission_check', type: 'single',
+        showIf: a => !(Array.isArray(a.commission_source) && a.commission_source.includes('no_commissions')),
+        label: '¿Sabes si te pagaron bien cada mes (por cada póliza y miembro)?',
+        options: [['exact','Sí, lo cuadro póliza por póliza'],['approx','Más o menos, reviso el total'],['no','No, confío en lo que llega'],['no_time','No tengo tiempo de revisarlo']] },
+      { id: 'commission_errors', type: 'single',
+        showIf: a => !(Array.isArray(a.commission_source) && a.commission_source.includes('no_commissions')),
+        label: '¿Has descubierto comisiones que no te pagaron o te pagaron mal?',
+        options: [['often','Sí, seguido'],['sometimes','Alguna vez'],['never','Nunca'],['unsure','No sabría decirlo']] }
+    ]
+  },
+  {
+    id: 'interest', title: 'Lo que te serviría',
+    intro: 'Estas son ideas para el sistema. Dinos cuánto te servirían. Recuerda: tú sigues cotizando e inscribiendo; el sistema solo te ordena el trabajo.',
+    questions: [
+      { id: 'feature_interest', type: 'matrix', ends: SCALE_LABELS_INTEREST,
+        label: '¿Cuánto te interesa cada función?', hint: '1 = no me interesa, 5 = lo necesito.',
+        items: [
+          ['intake_link','Un enlace tuyo donde el cliente llena su solicitud completa y validada'],
+          ['case_board','Tablero de casos con estados: solicitud, cotización, inscripción, póliza'],
+          ['documents_deadlines','Control de documentos con plazos y recordatorios'],
+          ['assign','Asignar casos y tareas a tus asistentes y ver quién hizo qué'],
+          ['renewal_reminders','Recordatorios y campañas de renovación'],
+          ['commission_reconcile','Cuadre de comisiones: lo esperado contra lo pagado'],
+          ['client_portal','Portal del cliente para subir documentos y ver su caso'],
+          ['own_branding','Tu logo, tus colores y tu nombre en lo que ve el cliente'],
+          ['installable_app','App instalable en el teléfono, tuya y de tus asistentes'],
+          ['bilingual','Todo en español e inglés, según prefiera cada quien']
+        ] },
+      { id: 'top_feature', type: 'single',
+        label: 'Si solo pudieras tener una, ¿cuál elegirías?',
+        options: [['intake_link','El enlace de solicitud del cliente'],['case_board','El tablero de casos'],['documents_deadlines','Control de documentos con plazos'],['assign','Asignar casos a asistentes'],['renewal_reminders','Recordatorios de renovación'],['commission_reconcile','Cuadre de comisiones'],['client_portal','Portal del cliente'],['own_branding','Mi marca propia'],['installable_app','App instalable'],['bilingual','Español e inglés']] },
+      { id: 'clients_web_form', type: 'single',
+        label: '¿Crees que tus clientes llenarían su solicitud en un enlace en lugar de mandarte los datos por WhatsApp o foto?',
+        options: [['most','Sí, la mayoría'],['some','Algunos sí'],['few','Pocos'],['no','No, prefieren mandarlos'],['unsure','No estoy seguro']] },
+      { id: 'adoption_concerns', type: 'multi', other: true, exclusive: ['none'],
+        label: '¿Qué te frenaría para usar un sistema así?', hint: 'Marca todo lo que apliquen.',
+        options: [['price','El precio'],['learning','El tiempo para aprenderlo'],['clients_wont_use','Que mis clientes no lo usen'],['team_wont_use','Que mis asistentes no lo usen'],['data_privacy','Confiar los datos de mis clientes (SSN, documentos) a otra empresa'],['fmo_crm','Ya uso el CRM de mi FMO'],['none','Nada, lo usaría']] }
+    ]
+  },
+  {
+    id: 'pricing', title: 'Precio',
+    intro: 'El sistema se pagaría con una suscripción mensual, nunca con un porcentaje de tus comisiones ni por póliza.',
+    questions: [
+      { id: 'willingness_to_pay', type: 'single', cols: true,
+        label: 'Si el sistema te resolviera los problemas que marcaste, ¿cuánto pagarías al mes?',
+        options: [['wouldnt_pay','No pagaría'],['lt20','Menos de US$20'],['20_39','US$20 a 39'],['40_79','US$40 a 79'],['80_149','US$80 a 149'],['150plus','US$150 o más']] },
+      { id: 'pay_per_assistant', type: 'single',
+        showIf: a => a.team && a.team !== 'alone' && a.willingness_to_pay && a.willingness_to_pay !== 'wouldnt_pay',
+        label: '¿Te parecería bien que el precio dependa de cuántos asistentes usan el sistema?',
+        options: [['yes','Sí, es lo justo'],['prefer_flat','Prefiero un precio fijo'],['indifferent','Me da igual']] },
+      { id: 'subscription_payment_methods', type: 'multi', cols: true, other: true,
+        label: '¿Cómo preferirías pagar la suscripción?', hint: 'Marca todas las que te sirvan.',
+        options: [['card','Tarjeta de crédito o débito'],['zelle','Zelle'],['paypal','PayPal'],['bank_transfer','Transferencia bancaria (ACH)']] }
+    ]
+  },
+  {
+    id: 'final', title: 'Para terminar',
+    intro: 'Último paso. Todo aquí es opcional.',
+    questions: [
+      { id: 'comments', type: 'textarea', optional: true, max: 1000,
+        label: '¿Algo más que quieras contarnos?', hint: 'Ideas, problemas, lo que sea.' },
+      { id: 'other_agents', type: 'single', optional: true,
+        label: '¿Conoces a otros agentes que usarían algo así?',
+        options: [['many','Sí, varios'],['some','Uno o dos'],['none','No se me ocurre nadie']] },
+      { id: 'wants_contact', type: 'single', optional: true,
+        label: '¿Te gustaría probar el sistema antes que nadie o conversar 15 minutos con nosotros?',
+        options: [['yes','Sí, me interesa'],['no','No, gracias']] },
+      { id: 'contact', type: 'text', optional: true, max: 120, inputmode: 'email',
+        showIf: a => a.wants_contact === 'yes',
+        label: 'Déjanos tu WhatsApp o correo',
+        hint: 'Opcional. Solo lo usaremos para invitarte a probar o a conversar. Si no lo dejas, tu respuesta sigue siendo anónima.' }
+    ]
+  }
+];
+
+/* ===== Estado ===== */
+let answers = {};
+let step = 0;          // índice de sección
+let submitting = false;
+let submitted = false;
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+/* ===== Persistencia local ===== */
+function saveLocal() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ answers, step })); } catch (e) { /* sin almacenamiento */ }
+}
+function loadLocal() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (data && typeof data.answers === 'object' && data.answers) {
+      answers = data.answers;
+      step = Math.min(Math.max(parseInt(data.step, 10) || 0, 0), SECTIONS.length - 1);
+      return Object.keys(answers).length > 0;
+    }
+  } catch (e) { /* ignorar */ }
+  return false;
+}
+function clearLocal() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignorar */ }
+}
+
+/* ===== "Otro" con varios textos ===== */
+const OTHER_MAX_ITEMS = 5;
+function otherItems(qid) {
+  const v = answers[qid + '_other'];
+  if (Array.isArray(v)) return v.length ? v : [''];
+  if (typeof v === 'string') return [v]; // datos guardados por la versión anterior
+  return [''];
+}
+function otherFilled(qid) {
+  return otherItems(qid).map(t => (t || '').trim()).filter(Boolean);
+}
+function renderOtherList(q, focusIndex) {
+  const list = document.getElementById('in-' + q.id + '-other');
+  if (!list) return;
+  const items = otherItems(q.id);
+  answers[q.id + '_other'] = items.slice();
+  list.innerHTML = '';
+  items.forEach((text, i) => {
+    const input = el('input', { type: 'text', 'data-other-for': q.id, 'data-idx': String(i), maxlength: '120',
+      placeholder: i === 0 ? '¿Cuál?' : '¿Cuál más?', 'aria-label': 'Otro, opción ' + (i + 1) });
+    input.value = text || '';
+    const row = el('div', { class: 'other-row' }, [input]);
+    if (items.length > 1) {
+      row.appendChild(el('button', { type: 'button', class: 'other-remove', 'data-other-remove': q.id, 'data-idx': String(i),
+        'aria-label': 'Quitar otro ' + (i + 1), text: '×' }));
+    }
+    list.appendChild(row);
+  });
+  const add = el('button', { type: 'button', class: 'other-add', 'data-other-add': q.id, text: '+ Agregar otro' });
+  add.hidden = items.length >= OTHER_MAX_ITEMS;
+  list.appendChild(add);
+  if (typeof focusIndex === 'number') {
+    const f = list.querySelector('input[data-idx="' + focusIndex + '"]');
+    if (f) f.focus();
+  }
+}
+
+/* ===== Renderizado ===== */
+function el(tag, attrs = {}, children = []) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === undefined || v === null || v === false) continue;
+    if (k === 'class') n.className = v;
+    else if (k === 'text') n.textContent = v;
+    else if (k === 'html') n.innerHTML = v;
+    else n.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of [].concat(children)) if (c) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  return n;
+}
+
+function optionNode(type, name, value, label, checked) {
+  const input = el('input', { type, name, value });
+  input.checked = !!checked;
+  return el('label', { class: 'opt' }, [input, el('span', { class: 'mark', 'aria-hidden': 'true' }), el('span', { class: 'ol', text: label })]);
+}
+
+function renderQuestion(q, num) {
+  const isGroup = q.type === 'single' || q.type === 'multi' || q.type === 'scale' || q.type === 'matrix';
+  const wrap = el(isGroup ? 'fieldset' : 'div', { class: 'q', 'data-qid': q.id, id: 'q-' + q.id });
+  const titleId = 'q-' + q.id + '-label';
+  const hintId = q.hint ? 'q-' + q.id + '-hint' : null;
+  const errId = 'q-' + q.id + '-err';
+  const labelChildren = [q.label];
+  if (q.optional) labelChildren.push(el('span', { class: 'opt-tag', text: '(opcional)' }));
+
+  if (isGroup) {
+    wrap.appendChild(el('legend', { id: titleId }, labelChildren));
+    wrap.setAttribute('aria-describedby', [hintId, errId].filter(Boolean).join(' '));
+  } else {
+    wrap.appendChild(el('label', { class: 'qlabel', id: titleId, for: 'in-' + q.id }, labelChildren));
+  }
+  if (q.hint) wrap.appendChild(el('p', { class: 'hint', id: hintId, text: q.hint }));
+
+  if (q.type === 'single' || q.type === 'multi') {
+    const type = q.type === 'single' ? 'radio' : 'checkbox';
+    const box = el('div', { class: 'options' + (q.cols ? ' cols' : '') });
+    const cur = answers[q.id];
+    for (const [code, text] of q.options) {
+      const checked = type === 'radio' ? cur === code : Array.isArray(cur) && cur.includes(code);
+      box.appendChild(optionNode(type, q.id, code, text, checked));
+    }
+    if (q.other) {
+      const checked = type === 'radio' ? cur === 'other' : Array.isArray(cur) && cur.includes('other');
+      box.appendChild(optionNode(type, q.id, 'other', 'Otro', checked));
+    }
+    wrap.appendChild(box);
+    if (q.other) {
+      wrap.appendChild(el('div', { class: 'other-list', id: 'in-' + q.id + '-other' }));
+    }
+  } else if (q.type === 'matrix') {
+    const cur = answers[q.id] || {};
+    for (const [code, text] of q.items) {
+      const name = q.id + '__' + code;
+      const mid = 'm-' + name;
+      const item = el('div', { class: 'matrix-item', role: 'radiogroup', 'aria-labelledby': mid, 'data-item': code });
+      item.appendChild(el('p', { class: 'mlabel', id: mid, text: text }));
+      const sc = el('div', { class: 'scale' });
+      for (let v = 1; v <= 5; v++) {
+        const input = el('input', { type: 'radio', name, value: String(v), 'aria-label': text + ': ' + v + ' de 5' });
+        input.checked = cur[code] === v;
+        sc.appendChild(el('label', { class: 'opt' }, [input, el('span', { class: 'mark', 'aria-hidden': 'true' }), el('span', { class: 'ol', text: String(v), 'aria-hidden': 'true' })]));
+      }
+      item.appendChild(sc);
+      item.appendChild(el('div', { class: 'scale-ends', 'aria-hidden': 'true' }, [el('span', { text: '1 · ' + q.ends[0] }), el('span', { text: q.ends[1] + ' · 5' })]));
+      wrap.appendChild(item);
+    }
+  } else if (q.type === 'text' || q.type === 'textarea') {
+    const attrs = { id: 'in-' + q.id, name: q.id, maxlength: String(q.max || 300), 'aria-describedby': [hintId, errId].filter(Boolean).join(' ') };
+    let input;
+    if (q.type === 'text') {
+      input = el('input', Object.assign(attrs, { type: 'text', inputmode: q.inputmode === 'email' ? 'email' : 'text', autocomplete: 'off', placeholder: 'Ej.: +1 (305) 000-0000 o tu@correo.com' }));
+    } else {
+      input = el('textarea', Object.assign(attrs, { rows: '4', placeholder: 'Escribe aquí…' }));
+    }
+    input.value = answers[q.id] || '';
+    wrap.appendChild(input);
+    if (q.type === 'textarea') wrap.appendChild(el('div', { class: 'count', 'data-count-for': q.id, 'aria-hidden': 'true', text: (input.value.length) + ' / ' + (q.max || 300) }));
+  }
+  wrap.appendChild(el('div', { class: 'err', id: errId, role: 'alert', 'aria-live': 'polite' }));
+  return wrap;
+}
+
+function renderSteps() {
+  const host = $('#steps');
+  host.innerHTML = '';
+  let n = 0;
+  SECTIONS.forEach((s, i) => {
+    const sec = el('section', { class: 'card step', id: 'step-' + s.id, 'data-step': String(i), 'aria-labelledby': 'step-title-' + s.id, hidden: true });
+    sec.appendChild(el('h2', { id: 'step-title-' + s.id, tabindex: '-1', text: s.title }));
+    sec.appendChild(el('p', { class: 'step-intro', text: s.intro }));
+    sec.appendChild(el('div', { class: 'step-error', role: 'alert' }));
+    s.questions.forEach(q => { n++; sec.appendChild(renderQuestion(q, n)); });
+    const nav = el('div', { class: 'nav' });
+    nav.appendChild(el('button', { type: 'button', class: 'btn btn-ghost', 'data-action': 'back', text: i === 0 ? 'Inicio' : 'Atrás' }));
+    const isLast = i === SECTIONS.length - 1;
+    nav.appendChild(el('button', { type: 'button', class: 'btn btn-primary', 'data-action': isLast ? 'submit' : 'next', text: isLast ? 'Enviar respuestas' : 'Siguiente' }));
+    sec.appendChild(nav);
+    if (isLast) sec.appendChild(el('div', { class: 'submit-status', 'aria-live': 'polite' }));
+    host.appendChild(sec);
+  });
+}
+
+/* ===== Lógica ===== */
+function allQuestions() { return SECTIONS.flatMap(s => s.questions); }
+function findQuestion(id) { return allQuestions().find(q => q.id === id); }
+function isVisible(q) { try { return !q.showIf || !!q.showIf(answers); } catch (e) { return true; } }
+
+function updateVisibility() {
+  for (const q of allQuestions()) {
+    const node = document.getElementById('q-' + q.id);
+    if (node) node.hidden = !isVisible(q);
+    if (q.other) {
+      const oi = document.getElementById('in-' + q.id + '-other');
+      const cur = answers[q.id];
+      const on = q.type === 'single' ? cur === 'other' : Array.isArray(cur) && cur.includes('other');
+      if (oi) oi.hidden = !on;
+    }
+  }
+}
+
+function readInput(target) {
+  // Texto "Otro"
+  if (target.dataset.otherFor) {
+    const qid = target.dataset.otherFor;
+    const items = otherItems(qid).slice();
+    items[parseInt(target.dataset.idx, 10) || 0] = target.value;
+    answers[qid + '_other'] = items;
+    return qid;
+  }
+  const name = target.name;
+  if (!name || name === 'website') return null;
+  if (name.includes('__')) {
+    const [qid, item] = name.split('__');
+    answers[qid] = Object.assign({}, answers[qid], { [item]: parseInt(target.value, 10) });
+    return qid;
+  }
+  const q = findQuestion(name);
+  if (!q) return null;
+  if (q.type === 'single') {
+    answers[q.id] = target.value;
+  } else if (q.type === 'multi') {
+    let cur = Array.isArray(answers[q.id]) ? answers[q.id].slice() : [];
+    const code = target.value;
+    if (target.checked) {
+      const ex = q.exclusive || [];
+      if (ex.includes(code)) cur = [code];
+      else cur = cur.filter(c => !ex.includes(c));
+      if (!cur.includes(code)) cur.push(code);
+    } else {
+      cur = cur.filter(c => c !== code);
+    }
+    answers[q.id] = cur;
+    // Sincroniza las casillas por si se desmarcó alguna exclusiva
+    $$('input[name="' + q.id + '"]').forEach(i => { i.checked = cur.includes(i.value); });
+  } else {
+    answers[q.id] = target.value;
+    const c = document.querySelector('[data-count-for="' + q.id + '"]');
+    if (c) c.textContent = target.value.length + ' / ' + (q.max || 300);
+  }
+  return q.id;
+}
+
+function questionError(q) {
+  const v = answers[q.id];
+  if (q.type === 'single') {
+    if (!v) return q.optional ? '' : 'Elige una opción.';
+  } else if (q.type === 'multi') {
+    if (!Array.isArray(v) || v.length === 0) return q.optional ? '' : 'Marca al menos una opción.';
+  } else if (q.type === 'matrix') {
+    const got = v || {};
+    const missing = q.items.filter(([code]) => !got[code]);
+    if (missing.length) return missing.length === 1 ? 'Te falta calificar 1 opción.' : 'Te faltan calificar ' + missing.length + ' opciones.';
+  } else if (q.type === 'text' || q.type === 'textarea') {
+    if (!q.optional && !(v || '').trim()) return 'Escribe tu respuesta.';
+    if (q.id === 'contact' && (v || '').trim() && !/^(\+?[\d\s().-]{7,20}|[^\s@]+@[^\s@]+\.[^\s@]{2,})$/.test(v.trim())) {
+      return 'Escribe un número de WhatsApp o un correo válido, o déjalo en blanco.';
+    }
+  }
+  if (q.other) {
+    const on = q.type === 'single' ? v === 'other' : Array.isArray(v) && v.includes('other');
+    if (on && otherFilled(q.id).length === 0) return 'Cuéntanos cuál es la opción "Otro".';
+  }
+  return '';
+}
+
+function showQuestionError(q, msg) {
+  const node = document.getElementById('q-' + q.id);
+  if (!node) return;
+  node.classList.toggle('invalid', !!msg);
+  $('.err', node).textContent = msg;
+  if (q.type === 'matrix') {
+    const got = answers[q.id] || {};
+    $$('.matrix-item', node).forEach(it => it.classList.toggle('invalid', !!msg && !got[it.dataset.item]));
+  }
+}
+
+function validateStep(i) {
+  let firstBad = null;
+  for (const q of SECTIONS[i].questions) {
+    if (!isVisible(q)) { showQuestionError(q, ''); continue; }
+    const msg = questionError(q);
+    showQuestionError(q, msg);
+    if (msg && !firstBad) firstBad = q;
+  }
+  const sec = document.querySelector('[data-step="' + i + '"]');
+  const box = $('.step-error', sec);
+  if (firstBad) {
+    box.textContent = 'Revisa las preguntas marcadas en rojo antes de continuar.';
+    box.classList.add('show');
+    const node = document.getElementById('q-' + firstBad.id);
+    node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const focusable = node.querySelector('input:not([hidden]),textarea');
+    if (focusable) setTimeout(() => focusable.focus({ preventScroll: true }), 300);
+    return false;
+  }
+  box.classList.remove('show');
+  return true;
+}
+
+function showView(id) {
+  ['view-welcome', 'survey', 'view-thanks'].forEach(v => { document.getElementById(v).hidden = v !== id; });
+  $('#progress').hidden = id !== 'survey';
+}
+
+function goToStep(i, focus = true) {
+  step = i;
+  $$('.step').forEach(s => { s.hidden = parseInt(s.dataset.step, 10) !== i; });
+  const pct = Math.round((i / SECTIONS.length) * 100);
+  $('#progress-fill').style.width = Math.max(pct, 4) + '%';
+  $('.bar').setAttribute('aria-valuenow', String(pct));
+  $('#progress-label').textContent = 'Paso ' + (i + 1) + ' de ' + SECTIONS.length;
+  $('#progress-title').textContent = SECTIONS[i].title;
+  saveLocal();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (focus) {
+    const h = document.getElementById('step-title-' + SECTIONS[i].id);
+    if (h) setTimeout(() => h.focus({ preventScroll: true }), 50);
+  }
+}
+
+/* ===== Envío ===== */
+function buildPayload() {
+  const out = {};
+  for (const q of allQuestions()) {
+    if (!isVisible(q)) continue;
+    const v = answers[q.id];
+    if (q.type === 'text' || q.type === 'textarea') {
+      const t = (v || '').trim();
+      if (t) out[q.id] = t.slice(0, q.max || 300);
+    } else if (q.type === 'multi') {
+      if (Array.isArray(v) && v.length) out[q.id] = v.slice();
+    } else if (q.type === 'matrix') {
+      if (v) out[q.id] = Object.assign({}, v);
+    } else if (v) {
+      out[q.id] = v;
+    }
+    if (q.other) {
+      const on = q.type === 'single' ? v === 'other' : Array.isArray(v) && v.includes('other');
+      const list = otherFilled(q.id).map(t => t.slice(0, 120)).slice(0, OTHER_MAX_ITEMS);
+      if (on && list.length) out[q.id + '_other'] = list;
+    }
+  }
+  return { survey_version: CONFIG.SURVEY_VERSION, answers: out };
+}
+
+function isConfigured() {
+  if (CONFIG.BACKEND === 'apps-script') return !!CONFIG.APPS_SCRIPT_URL;
+  return !!(CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY && CONFIG.TABLE);
+}
+
+/* Etiquetas legibles de cada respuesta, para la hoja y el correo del Apps Script. */
+function optionLabel(q, code) {
+  if (code === 'other') return 'Otro';
+  const found = (q.options || []).find(([c]) => c === code);
+  return found ? found[1] : code;
+}
+function readableRows(payload) {
+  const rows = [];
+  for (const q of allQuestions()) {
+    const v = payload.answers[q.id];
+    if (v === undefined) continue;
+    let text;
+    if (q.type === 'single') text = optionLabel(q, v);
+    else if (q.type === 'multi') text = v.map(c => optionLabel(q, c)).join('; ');
+    else if (q.type === 'matrix') text = q.items.map(([code, label]) => (v[code] ? v[code] + '/5 · ' : '') + label).filter(t => /^\d\/5/.test(t)).join('\n');
+    else text = v;
+    const other = payload.answers[q.id + '_other'];
+    if (other && other.length) text += ' (Otro: ' + other.join('; ') + ')';
+    rows.push({ id: q.id, label: q.label, value: text });
+  }
+  return rows;
+}
+/* El script del formulario «Cotiza tu Seguro» espera secciones con registros; se reutiliza tal cual. */
+function appsScriptPayload(payload) {
+  const rows = readableRows(payload);
+  const bySection = SECTIONS.map(s => ({
+    title: s.title, repeatable: false, itemTitle: '',
+    records: [rows.filter(r => s.questions.some(q => q.id === r.id))]
+  })).filter(s => s.records[0].length);
+  bySection.unshift({ title: 'Encuesta', repeatable: false, itemTitle: '', records: [[
+    { id: 'fullName', label: 'Formulario', value: 'Encuesta Insurvo ' + payload.survey_version },
+    { id: 'survey_version', label: 'Versión', value: payload.survey_version },
+    { id: 'answers_json', label: 'Respuestas (JSON)', value: JSON.stringify(payload.answers) }
+  ]] });
+  return { agentId: CONFIG.APPS_SCRIPT_AGENT, agentName: 'Encuesta Insurvo', locale: 'es', consent: null,
+    submittedAt: new Date().toISOString(), display: bySection, data: { survey: payload } };
+}
+
+let lastPayload = null;
+
+async function sendPayload(payload) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    if (CONFIG.BACKEND === 'apps-script') {
+      // text/plain evita el preflight CORS; Apps Script responde JSON { ok }.
+      const res = await fetch(CONFIG.APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(appsScriptPayload(payload)),
+        signal: ctrl.signal,
+        credentials: 'omit',
+        referrerPolicy: 'no-referrer'
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const out = await res.json();
+      if (!out || !out.ok) throw new Error('server ' + (out && out.error));
+      return;
+    }
+    const res = await fetch(CONFIG.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/' + encodeURIComponent(CONFIG.TABLE), {
+      method: 'POST',
+      headers: {
+        'apikey': CONFIG.SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + CONFIG.SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal,
+      credentials: 'omit',
+      referrerPolicy: 'no-referrer'
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function finish(offline) {
+  submitted = true;
+  clearLocal();
+  $('#offline-box').hidden = !offline;
+  showView('view-thanks');
+  window.scrollTo({ top: 0 });
+  setTimeout(() => $('#view-thanks').focus(), 50);
+}
+
+async function submit(btn) {
+  if (submitting || submitted) return;
+  if (!validateStep(step)) return;
+  const status = $('.submit-status');
+  status.innerHTML = '';
+
+  // Trampa para bots: si el campo oculto tiene algo, no se envía nada.
+  if ($('#hp-website').value) { finish(false); return; }
+
+  lastPayload = buildPayload();
+
+  if (!isConfigured()) {
+    console.warn('[Encuesta Insurvo] CONFIG.SUPABASE_URL / SUPABASE_ANON_KEY vacíos: la respuesta no se envió. Se ofrece descarga en JSON.', lastPayload);
+    finish(true);
+    return;
+  }
+
+  submitting = true;
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+  try {
+    await sendPayload(lastPayload);
+    finish(false);
+  } catch (e) {
+    console.error('[Encuesta Insurvo] Error al enviar:', e);
+    btn.disabled = false;
+    btn.textContent = 'Enviar respuestas';
+    const box = el('div', { class: 'notice err-box', role: 'alert' }, [
+      'No pudimos enviar tus respuestas. Revisa tu conexión e inténtalo de nuevo; no se perdió nada.'
+    ]);
+    const retry = el('button', { type: 'button', class: 'btn btn-primary btn-block', style: 'margin-top:10px', text: 'Reintentar envío' });
+    retry.addEventListener('click', () => { status.innerHTML = ''; submit(btn); });
+    status.appendChild(box);
+    status.appendChild(retry);
+    retry.focus();
+  } finally {
+    submitting = false;
+  }
+}
+
+function downloadJSON() {
+  const data = lastPayload || buildPayload();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = el('a', { href: url, download: 'encuesta-insurvo-respuestas.json' });
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* ===== Eventos ===== */
+function init() {
+  const resumed = loadLocal();
+  renderSteps();
+  allQuestions().filter(q => q.other).forEach(q => renderOtherList(q));
+  updateVisibility();
+  if (resumed) {
+    $('#resume-note').hidden = false;
+    $('#btn-start').textContent = 'Continuar encuesta';
+  }
+
+  $('#btn-start').addEventListener('click', () => { showView('survey'); goToStep(step); });
+
+  const form = $('#survey');
+  const onChange = e => {
+    const qid = readInput(e.target);
+    if (!qid) return;
+    updateVisibility();
+    const q = findQuestion(qid);
+    const node = q && document.getElementById('q-' + qid);
+    if (node && node.classList.contains('invalid')) showQuestionError(q, questionError(q));
+    saveLocal();
+  };
+  form.addEventListener('change', onChange);
+  form.addEventListener('input', e => { if (e.target.matches('input[type=text],textarea')) onChange(e); });
+  form.addEventListener('submit', e => e.preventDefault());
+  form.addEventListener('keydown', e => {
+    // Enter en un campo de texto de una línea avanza de paso
+    if (e.key === 'Enter' && e.target.dataset.otherFor) {
+      e.preventDefault();
+      const q = findQuestion(e.target.dataset.otherFor);
+      const items = otherItems(q.id);
+      if (e.target.value.trim() && items.length < OTHER_MAX_ITEMS) {
+        answers[q.id + '_other'] = items.concat(['']);
+        renderOtherList(q, items.length);
+        saveLocal();
+      }
+      return;
+    }
+    if (e.key === 'Enter' && e.target.matches('input[type=text]')) {
+      e.preventDefault();
+      const btn = document.querySelector('[data-step="' + step + '"] [data-action="next"],[data-step="' + step + '"] [data-action="submit"]');
+      if (btn) btn.click();
+    }
+  });
+  form.addEventListener('click', e => {
+    const addBtn = e.target.closest('button[data-other-add]');
+    if (addBtn) {
+      const q = findQuestion(addBtn.dataset.otherAdd);
+      const items = otherItems(q.id);
+      if (items.length < OTHER_MAX_ITEMS) { answers[q.id + '_other'] = items.concat(['']); renderOtherList(q, items.length); saveLocal(); }
+      return;
+    }
+    const remBtn = e.target.closest('button[data-other-remove]');
+    if (remBtn) {
+      const q = findQuestion(remBtn.dataset.otherRemove);
+      const items = otherItems(q.id).slice();
+      const i = parseInt(remBtn.dataset.idx, 10) || 0;
+      items.splice(i, 1);
+      answers[q.id + '_other'] = items.length ? items : [''];
+      renderOtherList(q, Math.max(0, i - 1));
+      const node = document.getElementById('q-' + q.id);
+      if (node && node.classList.contains('invalid')) showQuestionError(q, questionError(q));
+      saveLocal();
+      return;
+    }
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const a = btn.dataset.action;
+    if (a === 'back') {
+      if (step === 0) { showView('view-welcome'); saveLocal(); }
+      else goToStep(step - 1);
+    } else if (a === 'next') {
+      if (validateStep(step)) goToStep(step + 1);
+    } else if (a === 'submit') {
+      submit(btn);
+    }
+  });
+  $('#btn-download').addEventListener('click', downloadJSON);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
