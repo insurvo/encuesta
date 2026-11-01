@@ -2,7 +2,7 @@
 
 Encuesta anónima (Fase 0 de Insurvo) para agentes de seguros hispanos en EE. UU. y sus asistentes. Página estática publicada con GitHub Pages: **https://insurvo.github.io/encuesta/**
 
-- `index.html`: la encuesta completa (HTML, CSS y JS en un solo archivo). Siete secciones: tu negocio, cómo trabajas hoy, problemas, renovaciones y comisiones, lo que te serviría, precio y cierre. Guarda el avance en el teléfono (`localStorage`) y envía al final.
+- `index.html`: la encuesta completa (HTML, CSS y JS en un solo archivo). Ocho secciones (versión `insurvo-3`): tu negocio, cómo trabajas hoy, problemas, renovaciones y comisiones, después de la venta, lo que te serviría, precio y cierre. Guarda el avance en el teléfono (`localStorage`) y envía al final.
 - `apps-script/encuesta.gs`: script de Google Apps Script dedicado (hoja de cálculo + correo) para cuando se quiera separar la encuesta del formulario «Cotiza tu Seguro».
 - `supabase.sql`: alternativa en Supabase (tabla `survey_responses` con seguridad por filas; la página solo puede insertar).
 
@@ -20,12 +20,12 @@ Para separar la encuesta en su propia hoja y correo: crear un proyecto nuevo en 
 
 1. Crear un proyecto en https://supabase.com y correr `supabase.sql` en el editor SQL.
 2. En `index.html`, `CONFIG`: `BACKEND: 'supabase'`, `SUPABASE_URL` y `SUPABASE_ANON_KEY` (clave pública *anon*; solo puede insertar gracias a RLS).
-3. Las respuestas se leen en el panel de Supabase (tabla `survey_responses`) filtrando por `survey_version = 'insurvo-1'`.
+3. Las respuestas se leen en el panel de Supabase (tabla `survey_responses`) filtrando por `survey_version = 'insurvo-3'`.
 
 ## Formato de una respuesta
 
 ```json
-{ "survey_version": "insurvo-1", "answers": { "products": ["aca", "life"], "products_other": ["Seguros de viaje"], "team": "2_3", "pain_ratings": { "intake": 4, "documents": 5 }, "willingness_to_pay": "50_79" } }
+{ "survey_version": "insurvo-3", "answers": { "products": ["aca", "life"], "products_other": ["Seguros de viaje"], "team": "2_3", "pain_ratings": { "intake": 4, "documents": 5 }, "willingness_to_pay": "50_79" } }
 ```
 
 Los códigos de cada pregunta y opción están en `SECTIONS` dentro de `index.html`. Las preguntas que dependen de otra (`showIf`) no se envían si estaban ocultas.
@@ -36,4 +36,4 @@ GitHub Pages desde la rama `main`, carpeta raíz (`.nojekyll` evita el procesado
 
 ## Probar
 
-`python3 -m http.server 8765` en esta carpeta y abrir http://localhost:8765/. Con Playwright se recorren las siete secciones, las validaciones, los `showIf`, «Otro», las opciones exclusivas, la persistencia local y el barrido responsive (320 a 1440 px). Para una prueba de envío real se cambia `CONFIG.SURVEY_VERSION` a `insurvo-test` desde la consola antes de enviar; esas filas se descartan al analizar.
+`python3 -m http.server 8765` en esta carpeta y abrir http://localhost:8765/. Con Playwright se recorren las ocho secciones, las validaciones, los `showIf`, «Otro», las opciones exclusivas, la persistencia local y el barrido responsive (320 a 1440 px). Para una prueba de envío real se cambia `CONFIG.SURVEY_VERSION` a `insurvo-test` desde la consola antes de enviar; esas filas se descartan al analizar.

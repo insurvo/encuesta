@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Encuesta para agentes de seguros · Insurvo</title>
-<meta name="description" content="Encuesta anónima de unos 6 minutos para agentes de seguros: ayúdanos a construir una herramienta que ordene tu temporada, tus documentos y tus comisiones.">
+<meta name="description" content="Encuesta anónima de unos 8 minutos para agentes de seguros: ayúdanos a construir una herramienta que ordene tu temporada, tus documentos y tus comisiones.">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#2b2d7c">
@@ -155,7 +155,7 @@ input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,textarea:fo
   </header>
 
   <div class="progress" id="progress" hidden>
-    <div class="progress-meta"><span id="progress-label">Paso 1 de 7</span><span id="progress-title"></span></div>
+    <div class="progress-meta"><span id="progress-label">Paso 1 de 8</span><span id="progress-title"></span></div>
     <div class="bar" role="progressbar" aria-label="Avance de la encuesta" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-fill"></span></div>
   </div>
 
@@ -166,7 +166,7 @@ input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,textarea:fo
       <p class="lead">Estamos construyendo <b>un sistema para agentes de seguros y sus asistentes</b>: recibir la solicitud del cliente por un enlace, llevar los casos de cotización e inscripción, controlar documentos y plazos, trabajar las renovaciones y cuadrar comisiones, todo en un solo lugar. Queremos saber cómo trabajas hoy para hacerlo bien desde el principio.</p>
       <p class="premise"><b>Insurvo no vende seguros.</b> Es software para el agente: tú sigues cotizando, asesorando e inscribiendo; el sistema te ordena el trabajo.</p>
       <ul class="facts">
-        <li><span class="ic" aria-hidden="true">⏱</span><div><b>Unos 6 minutos</b><span class="t">Casi todo se responde con un toque.</span></div></li>
+        <li><span class="ic" aria-hidden="true">⏱</span><div><b>Unos 8 minutos</b><span class="t">Casi todo se responde con un toque.</span></div></li>
         <li><span class="ic" aria-hidden="true">🔒</span><div><b>Es anónima</b><span class="t">No pedimos tu nombre, tu agencia ni datos de tus clientes. Al final puedes dejar un contacto solo si quieres probar el sistema.</span></div></li>
         <li><span class="ic" aria-hidden="true">💾</span><div><b>Se guarda tu avance</b><span class="t">Si cierras la página, puedes seguir donde te quedaste en este mismo teléfono.</span></div></li>
       </ul>
@@ -204,7 +204,7 @@ input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,textarea:fo
    (Google Apps Script del dueño, gratis). 'supabase' inserta en la tabla survey_responses
    (ver supabase.sql). Ambos usan la misma forma de payload (survey_version + answers). */
 const CONFIG = {
-  SURVEY_VERSION: 'insurvo-2',
+  SURVEY_VERSION: 'insurvo-3',
   BACKEND: 'apps-script',
   APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxSSy3Uf2Ne_t4agz-i_RVYgEs40JgE01_E1tCXgEndeSvBbIorBQr2NxEVJrHqJl_4/exec',
   APPS_SCRIPT_AGENT: 'alirio',                       // a quién le llega el correo (CONFIG.AGENTS del script)
@@ -216,7 +216,7 @@ const STORAGE_KEY = 'encuesta_insurvo_' + CONFIG.SURVEY_VERSION;
 const REQUEST_TIMEOUT_MS = 15000;
 
 /* ===== Opciones reutilizables ===== */
-const SCALE_LABELS_PAIN = ['No me pasa', 'Me afecta mucho'];
+const SCALE_LABELS_PAIN = ['Nunca', 'Casi siempre'];
 const SCALE_LABELS_INTEREST = ['No me interesa', 'Lo necesito'];
 
 /* ===== Definición de la encuesta =====
@@ -227,8 +227,11 @@ const SCALE_LABELS_INTEREST = ['No me interesa', 'Lo necesito'];
 const SECTIONS = [
   {
     id: 'business', title: 'Tu negocio',
-    intro: 'Empecemos por conocer qué vendes y cómo está armado tu equipo.',
+    intro: 'Empecemos por conocer qué vendes y cómo está armado tu equipo. Si eres asistente, responde por la agencia donde trabajas.',
     questions: [
+      { id: 'role', type: 'single',
+        label: '¿Cuál es tu papel?',
+        options: [['agent_owner','Agente con licencia y mi propio negocio'],['agent_agency','Agente con licencia que trabaja para una agencia'],['agency_owner','Dueño de agencia (dirijo a otros agentes)'],['assistant','Asistente o personal de apoyo']] },
       { id: 'products', type: 'multi', cols: true, other: true,
         label: '¿Qué productos vendes o piensas vender este año?', hint: 'Marca todos los que apliquen.',
         options: [['aca','Salud ACA (Obamacare / Marketplace)'],['life','Vida'],['dental','Dental y visión'],['medicare','Medicare'],['auto_home','Auto u hogar'],['supplemental','Suplementarios (accidentes, hospitalización…)']] },
@@ -241,6 +244,16 @@ const SECTIONS = [
       { id: 'licensed_states', type: 'single', cols: true,
         label: '¿En cuántos estados tienes licencia?',
         options: [['none','Todavía ninguna'],['1','1 estado'],['2_3','2 a 3'],['4_9','4 a 9'],['10plus','10 o más']] },
+      { id: 'main_states', type: 'multi', cols: true, other: true,
+        showIf: a => a.licensed_states && a.licensed_states !== 'none',
+        label: '¿En qué estados tienes más clientes?', hint: 'Marca los principales.',
+        options: [['fl','Florida'],['tx','Texas'],['ga','Georgia'],['nc','Carolina del Norte'],['ca','California'],['ny_nj','Nueva York o Nueva Jersey'],['il','Illinois'],['az','Arizona']] },
+      { id: 'upline', type: 'single',
+        label: '¿Trabajas con una agencia superior (FMO, IMO o MGA)?',
+        options: [['yes_tools','Sí, y me da herramientas (CRM, cotizador…)'],['yes_no_tools','Sí, pero no me da herramientas'],['direct','No, tengo contrato directo con las aseguradoras'],['unsure','No estoy seguro']] },
+      { id: 'lead_sources', type: 'multi', cols: true, other: true,
+        label: '¿De dónde salen la mayoría de tus clientes?', hint: 'Marca todo lo que apliquen.',
+        options: [['referrals','Referidos y boca a boca'],['social','Redes sociales (Facebook, Instagram, TikTok)'],['ads','Anuncios pagados'],['bought_leads','Compro prospectos (leads)'],['inbound_calls','Llamadas que entran a mi oficina'],['community','Iglesias, eventos o negocios del barrio'],['upline_leads','Me los da mi agencia superior']] },
       { id: 'team', type: 'single', cols: true,
         label: '¿Trabajas solo o con asistentes?', hint: 'Personas que te ayudan a atender clientes, aunque no tengan licencia.',
         options: [['alone','Solo'],['1','Con 1 asistente'],['2_3','Con 2 a 3'],['4_9','Con 4 a 9'],['10plus','Con 10 o más']] },
@@ -264,12 +277,18 @@ const SECTIONS = [
       { id: 'intake_channel', type: 'multi', cols: true, other: true,
         label: '¿Cómo te llegan los datos del cliente para cotizar?', hint: 'Marca todos los que uses.',
         options: [['call','Por llamada, yo los anoto'],['whatsapp_text','Por WhatsApp, en mensajes'],['photo_form','Foto de una planilla llenada'],['paper_form','Planilla en papel, en persona'],['web_form','Un formulario web o enlace'],['assistant','Mi asistente los toma']] },
+      { id: 'client_channel', type: 'multi', cols: true, other: true,
+        label: '¿Por dónde hablas con tus clientes la mayor parte del tiempo?', hint: 'Marca todos los que uses.',
+        options: [['whatsapp','WhatsApp'],['call','Llamada'],['sms','Mensaje de texto (SMS)'],['email','Correo'],['in_person','En persona']] },
       { id: 'intake_quality', type: 'single',
         label: 'De cada 10 solicitudes, ¿cuántas llegan incompletas o con errores que te obligan a volver a contactar al cliente?',
         options: [['0_1','0 a 1'],['2_3','2 a 3'],['4_6','4 a 6'],['7plus','7 o más']] },
       { id: 'documents_control', type: 'multi', other: true,
         label: '¿Cómo pides y controlas los documentos del cliente (ID, permiso de trabajo, talones de pago…)?', hint: 'Marca todo lo que apliquen.',
         options: [['whatsapp','Me los mandan por WhatsApp y los guardo en el teléfono'],['email','Por correo'],['drive','Los subo a Drive, Dropbox o similar'],['crm','En el CRM'],['paper','Copias en papel'],['memory','Lo llevo de memoria o en notas']] },
+      { id: 'enroll_platform', type: 'multi', cols: true, other: true,
+        label: '¿Dónde inscribes a tus clientes?', hint: 'Marca todo lo que uses.',
+        options: [['healthsherpa','HealthSherpa'],['healthcare_gov','HealthCare.gov directo'],['state_exchange','El portal de mi estado'],['carrier','El portal de la aseguradora'],['upline_platform','La plataforma de mi agencia superior']] },
       { id: 'dmi_missed', type: 'single',
         label: '¿Se te ha vencido algún plazo del Marketplace por documentos pendientes (DMI) de un cliente?',
         options: [['never','Nunca'],['once','Una vez'],['several','Varias veces'],['often','Me pasa seguido'],['unsure','No sé si me ha pasado']] },
@@ -284,15 +303,17 @@ const SECTIONS = [
     intro: 'Queremos saber qué te duele más para resolverlo primero.',
     questions: [
       { id: 'pain_ratings', type: 'matrix', ends: SCALE_LABELS_PAIN,
-        label: '¿Cuánto te afectan estas situaciones?', hint: '1 = no me pasa o no me afecta, 5 = me afecta muchísimo.',
+        label: 'En temporada, ¿con qué frecuencia te pasa cada cosa?', hint: '1 = nunca, 5 = casi siempre.',
         items: [
-          ['intake','La solicitud del cliente llega en papel, foto o WhatsApp, incompleta o con errores.'],
-          ['documents','Pedir y perseguir documentos es manual y se pierden plazos del Marketplace.'],
-          ['season_volume','En temporada el volumen desborda Excel y WhatsApp.'],
-          ['team_split','Repartir el trabajo entre asistentes y saber quién hizo qué.'],
-          ['renewals','Cada año toca volver a contactar a toda la cartera para renovar.'],
-          ['commissions','Saber qué debe pagar cada aseguradora y si pagó bien.'],
-          ['client_updates','Los clientes preguntan por el estado de su caso y toca responder uno a uno.']
+          ['intake','Volver a contactar al cliente porque faltan datos o vienen con errores.'],
+          ['documents','Perseguir al cliente para que mande documentos pendientes.'],
+          ['season_volume','Perder el hilo de algún caso porque hay demasiados a la vez.'],
+          ['team_split','No saber quién de tu equipo atendió algo o en qué quedó.'],
+          ['renewals','Clientes que no renuevan a tiempo o se van con otro agente.'],
+          ['commissions','Comisiones que llegan incompletas o que no logras cuadrar.'],
+          ['client_updates','Clientes que escriben para preguntar en qué va su caso.'],
+          ['unpaid_premium','Clientes que dejan de pagar la prima y pierden la póliza.'],
+          ['appointments','Clientes que te piden ayuda para conseguir médico o una cita.']
         ] },
       { id: 'biggest_time_sink', type: 'textarea', optional: true, max: 600,
         label: 'Cuéntanos: ¿qué es lo que más tiempo te quita en temporada?' }
@@ -319,6 +340,19 @@ const SECTIONS = [
     ]
   },
   {
+    id: 'after', title: 'Después de la venta',
+    intro: 'Lo que haces por tus clientes una vez que ya tienen su seguro.',
+    questions: [
+      { id: 'after_sale_services', type: 'multi', other: true, exclusive: ['nothing'],
+        label: '¿En qué más ayudas a tus clientes después de inscribirlos?', hint: 'Marca todo lo que apliquen.',
+        options: [['appointments','A conseguir médico o agendar citas'],['use_insurance','A entender cómo usar el seguro o una factura médica'],['taxes','Con impuestos (formulario 1095-A, declaración)'],['medicaid','Con Medicaid o CHIP'],['changes','Con cambios durante el año (mudanza, bebé, ingresos)'],['nothing','En nada más, solo inscribo']] },
+      { id: 'appointments_week', type: 'single',
+        showIf: a => Array.isArray(a.after_sale_services) && a.after_sale_services.includes('appointments'),
+        label: 'En una semana normal, ¿cuántas veces te piden ayuda con citas médicas?',
+        options: [['0_1','0 a 1'],['2_5','2 a 5'],['6_15','6 a 15'],['16plus','Más de 15']] }
+    ]
+  },
+  {
     id: 'interest', title: 'Lo que te serviría',
     intro: 'Estas son ideas para el sistema. Dinos cuánto te servirían. Recuerda: tú sigues cotizando e inscribiendo; el sistema solo te ordena el trabajo.',
     questions: [
@@ -334,11 +368,13 @@ const SECTIONS = [
           ['client_portal','Portal del cliente para subir documentos y ver su caso'],
           ['own_branding','Tu logo, tus colores y tu nombre en lo que ve el cliente'],
           ['installable_app','App instalable en el teléfono, tuya y de tus asistentes'],
+          ['appointments','Que tus clientes pidan citas médicas desde su portal y se repartan solas entre tus asistentes'],
+          ['auto_reminders','Recordatorios automáticos al cliente por WhatsApp o SMS'],
           ['bilingual','Todo en español e inglés, según prefiera cada quien']
         ] },
       { id: 'top_feature', type: 'single',
         label: 'Si solo pudieras tener una, ¿cuál elegirías?',
-        options: [['intake_link','El enlace de solicitud del cliente'],['case_board','El tablero de casos'],['documents_deadlines','Control de documentos con plazos'],['assign','Asignar casos a asistentes'],['renewal_reminders','Recordatorios de renovación'],['commission_reconcile','Cuadre de comisiones'],['client_portal','Portal del cliente'],['own_branding','Mi marca propia'],['installable_app','App instalable'],['bilingual','Español e inglés']] },
+        options: [['intake_link','El enlace de solicitud del cliente'],['case_board','El tablero de casos'],['documents_deadlines','Control de documentos con plazos'],['assign','Asignar casos a asistentes'],['renewal_reminders','Recordatorios de renovación'],['commission_reconcile','Cuadre de comisiones'],['client_portal','Portal del cliente'],['own_branding','Mi marca propia'],['installable_app','App instalable'],['appointments','Citas médicas para mis clientes'],['auto_reminders','Recordatorios por WhatsApp o SMS'],['bilingual','Español e inglés']] },
       { id: 'clients_web_form', type: 'single',
         label: '¿Crees que tus clientes llenarían su solicitud en un enlace en lugar de mandarte los datos por WhatsApp o foto?',
         options: [['most','Sí, la mayoría'],['some','Algunos sí'],['few','Pocos'],['no','No, prefieren mandarlos'],['unsure','No estoy seguro']] },
@@ -349,11 +385,14 @@ const SECTIONS = [
   },
   {
     id: 'pricing', title: 'Precio',
-    intro: 'El sistema se pagaría con una suscripción mensual desde US$50, nunca con un porcentaje de tus comisiones ni por póliza.',
+    intro: 'El sistema se pagaría con una suscripción mensual, nunca con un porcentaje de tus comisiones ni por póliza.',
     questions: [
+      { id: 'current_spend', type: 'single', cols: true,
+        label: '¿Cuánto pagas hoy al mes por herramientas para tu negocio (CRM, programas, apps)?',
+        options: [['nothing','Nada'],['lt50','Menos de US$50'],['50_149','US$50 a 149'],['150plus','US$150 o más'],['upline_pays','Lo paga mi agencia superior']] },
       { id: 'willingness_to_pay', type: 'single', cols: true,
         label: 'Si el sistema te resolviera los problemas que marcaste, ¿cuánto pagarías al mes?',
-        options: [['wouldnt_pay','No pagaría'],['50_79','US$50 a 79'],['80_149','US$80 a 149'],['150plus','US$150 o más']] },
+        options: [['wouldnt_pay','No pagaría'],['lt50','Menos de US$50'],['50_79','US$50 a 79'],['80_149','US$80 a 149'],['150plus','US$150 o más']] },
       { id: 'subscription_payment_methods', type: 'multi', cols: true, other: true,
         label: '¿Cómo preferirías pagar la suscripción?', hint: 'Marca todas las que te sirvan.',
         options: [['zelle','Zelle'],['usdt','USDT']] }
